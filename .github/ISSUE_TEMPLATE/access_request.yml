@@ -1,0 +1,38 @@
+name: Access Request
+description: Request repository access, team membership, or permissions change
+labels: ["access"]
+body:
+  - type: input
+    id: who
+    attributes:
+      label: Who needs access?
+      description: GitHub username(s)
+      placeholder: "@username"
+    validations:
+      required: true
+
+  - type: input
+    id: what
+    attributes:
+      label: What access is needed?
+      description: Repository name, team, or permission level
+      placeholder: "Write access to profenso/my-repo"
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why?
+      description: Brief justification — what work requires this access?
+    validations:
+      required: true
+
+  - type: input
+    id: duration
+    attributes:
+      label: Duration
+      description: Permanent or temporary? If temporary, until when?
+      placeholder: "Permanent / Until 2026-04-30"
+    validations:
+      required: true

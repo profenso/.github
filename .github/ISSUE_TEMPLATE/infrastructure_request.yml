@@ -1,0 +1,42 @@
+name: Infrastructure Request
+description: Request a new repository, environment, or configuration change
+labels: ["infrastructure"]
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Request type
+      options:
+        - New repository
+        - New environment
+        - Configuration change
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What do you need?
+      description: Describe the request in detail.
+      placeholder: |
+        e.g. "New private repo called 'my-service' for the payments team.
+        Should use the Python scaffold template."
+    validations:
+      required: true
+
+  - type: textarea
+    id: justification
+    attributes:
+      label: Why?
+      description: What work or project drives this request?
+    validations:
+      required: true
+
+  - type: input
+    id: timeline
+    attributes:
+      label: When do you need this by?
+      placeholder: "No rush / By 2026-04-01"
+    validations:
+      required: false

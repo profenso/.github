@@ -1,0 +1,35 @@
+name: Security Concern
+description: Something feels wrong security-wise (not an active vulnerability)
+labels: ["security"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **If you have found an active security vulnerability, do NOT open a public issue.**
+        Use GitHub's [private vulnerability reporting](https://docs.github.com/en/code-security/security-advisories/guidance-on-reporting-and-writing-information-about-vulnerabilities/privately-reporting-a-security-vulnerability) instead.
+
+        This template is for general security concerns — things that feel off, potential misconfigurations, or questions about security posture.
+
+  - type: textarea
+    id: concern
+    attributes:
+      label: What is the concern?
+      description: Describe what you've noticed and why it seems like a security issue.
+    validations:
+      required: true
+
+  - type: textarea
+    id: location
+    attributes:
+      label: Where?
+      description: Which repository, file, service, or configuration is affected?
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested fix
+      description: If you have an idea for how to address this.
+    validations:
+      required: false
