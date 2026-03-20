@@ -1,0 +1,28 @@
+# Sync labels from .github/labels.yml to all repositories in the org.
+# Ensures consistent label names, colours, and descriptions everywhere.
+# https://github.com/EndBug/label-sync
+
+name: Sync labels
+
+on:
+  push:
+    branches: [main]
+    paths: [".github/labels.yml"]
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: EndBug/label-sync@v2
+        with:
+          config-file: .github/labels.yml
+          # Do not delete labels that exist in repos but not in labels.yml.
+          # Repos may have additional labels specific to their needs.
+          delete-other-labels: false
+          # Dry-run on PRs, apply on main
+          dry-run: ${{ github.event_name == 'pull_request' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
