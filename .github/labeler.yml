@@ -1,0 +1,54 @@
+# PR auto-labeler configuration.
+# Maps file path patterns to labels applied automatically on PR open/change.
+# https://github.com/actions/labeler
+
+infrastructure:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.tf"
+          - "**/*.tfvars"
+          - ".terraform.lock.hcl"
+
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.md"
+          - "docs/**"
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/workflows/**"
+          - ".github/actions/**"
+
+chore:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".pre-commit-config.yaml"
+          - ".gitignore"
+          - ".checkov.yml"
+          - ".trivyignore"
+          - "dependabot.yml"
+          - ".github/dependabot.yml"
+
+security:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "SECURITY.md"
+          - ".trivyignore"
+          - ".checkov.yml"
+
+python:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.py"
+          - "requirements*.txt"
+          - "pyproject.toml"
+          - "Pipfile"
+
+docker:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "Dockerfile*"
+          - "docker-compose*.yml"
+          - ".dockerignore"

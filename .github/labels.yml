@@ -66,6 +66,10 @@
   color: "cfd3d7"
   description: "This issue or pull request already exists"
 
+- name: "tech-debt"
+  color: "e07c1a"
+  description: "Technical debt that needs addressing"
+
 # --- Scope ---
 - name: "security"
   color: "b60205"

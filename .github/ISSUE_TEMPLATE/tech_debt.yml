@@ -1,0 +1,56 @@
+name: Tech Debt
+description: Flag technical debt that needs addressing
+labels: ["tech-debt"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What is the tech debt?
+      description: Describe the shortcut, workaround, or design issue that needs fixing.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: How painful is this?
+      options:
+        - "Blocking — actively causing issues or slowing the team"
+        - "Painful — we work around it regularly"
+        - "Annoying — it bothers us but we cope"
+        - "Minor — clean up when convenient"
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: What's the impact of leaving it?
+      description: What happens if we don't fix this? Does it get worse over time?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_fix
+    attributes:
+      label: Proposed fix
+      description: How should this be addressed? Even a rough idea helps.
+    validations:
+      required: false
+
+  - type: input
+    id: affected_area
+    attributes:
+      label: Affected area
+      description: Which repo, service, or component is this in?
+      placeholder: "e.g. foundation-github, my-api, CI pipelines"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Links to code, PRs where the debt was introduced, related issues, etc.
+    validations:
+      required: false

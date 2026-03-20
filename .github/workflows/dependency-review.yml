@@ -1,0 +1,26 @@
+# Block PRs that introduce dependencies with known vulnerabilities.
+# Runs on every PR — complements Dependabot which only alerts after merge.
+# https://github.com/actions/dependency-review-action
+
+name: Dependency review
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/dependency-review-action@v4
+        with:
+          # Fail on vulnerabilities rated high or critical
+          fail-on-severity: high
+          # Comment a summary on the PR
+          comment-summary-in-pr: always
