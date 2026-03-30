@@ -30,10 +30,11 @@ jobs:
           DRY_RUN: ${{ github.event_name == 'pull_request' }}
         run: |
           python3 << 'EOF'
-          import json, os, subprocess, urllib.parse, yaml
+          import json, os, subprocess, sys, urllib.parse, yaml
 
           org = os.environ["ORG"]
           dry_run = os.environ["DRY_RUN"] == "true"
+          failed = False
 
           with open(".github/labels.yml") as f:
               labels = yaml.safe_load(f)
@@ -77,4 +78,7 @@ jobs:
                           print(f"  created:  {name}")
                       else:
                           print(f"  error:    {name} — {post.stderr.strip()}")
+                          failed = True
+
+          sys.exit(1 if failed else 0)
           EOF
