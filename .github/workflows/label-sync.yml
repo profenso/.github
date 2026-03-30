@@ -24,7 +24,7 @@ jobs:
           private-key: ${{ secrets.SCAFFOLD_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
-      - uses: EndBug/label-sync@v2
+      - uses: EndBug/label-sync@v2.3.3
         with:
           config-file: .github/labels.yml
           repos: all
@@ -35,3 +35,4 @@ jobs:
           dry-run: ${{ github.event_name == 'pull_request' }}
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
