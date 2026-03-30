@@ -3,44 +3,6 @@
 # To add a label: add it here and the workflow will create it everywhere.
 # To rename a label: use the 'aliases' field to migrate the old name.
 
-# --- Type ---
-- name: "bug"
-  color: "d73a4a"
-  description: "Something isn't working"
-
-- name: "enhancement"
-  color: "a2eeef"
-  description: "New feature or improvement to existing functionality"
-
-- name: "documentation"
-  color: "0075ca"
-  description: "Documentation only changes"
-
-- name: "chore"
-  color: "ededed"
-  description: "Maintenance, dependency updates, CI changes"
-
-- name: "question"
-  color: "d876e3"
-  description: "Further information is requested"
-
-# --- Priority ---
-- name: "priority:critical"
-  color: "b60205"
-  description: "Must be resolved immediately"
-
-- name: "priority:high"
-  color: "d93f0b"
-  description: "Should be resolved soon"
-
-- name: "priority:medium"
-  color: "fbca04"
-  description: "Normal priority"
-
-- name: "priority:low"
-  color: "0e8a16"
-  description: "Nice to have, no urgency"
-
 # --- Status ---
 - name: "blocked"
   color: "b60205"
@@ -58,6 +20,10 @@
   color: "fbca04"
   description: "Awaiting initial review and categorisation"
 
+- name: "needs-reproduction"
+  color: "fbca04"
+  description: "Bug cannot be confirmed without a reproduction case"
+
 - name: "wontfix"
   color: "ffffff"
   description: "This will not be worked on"
@@ -66,9 +32,9 @@
   color: "cfd3d7"
   description: "This issue or pull request already exists"
 
-- name: "tech-debt"
-  color: "e07c1a"
-  description: "Technical debt that needs addressing"
+- name: "help wanted"
+  color: "008672"
+  description: "Extra attention or community contribution needed"
 
 # --- Scope ---
 - name: "security"
@@ -82,3 +48,19 @@
 - name: "good first issue"
   color: "7057ff"
   description: "Good for newcomers"
+
+- name: "tech-debt"
+  color: "e07c1a"
+  description: "Technical debt that needs addressing"
+
+- name: "breaking change"
+  color: "b60205"
+  description: "Introduces a breaking change requiring consumer action"
+
+- name: "performance"
+  color: "0075ca"
+  description: "Performance-related issue or improvement"
+
+- name: "dependencies"
+  color: "0366d6"
+  description: "Dependency updates"
