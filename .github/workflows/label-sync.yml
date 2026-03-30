@@ -1,6 +1,5 @@
 # Sync labels from .github/labels.yml to all repositories in the org.
 # Ensures consistent label names, colours, and descriptions everywhere.
-# https://github.com/EndBug/label-sync
 
 name: Sync labels
 
@@ -8,7 +7,7 @@ on:
   push:
     branches: [main]
     paths: [".github/labels.yml"]
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -24,15 +23,58 @@ jobs:
           private-key: ${{ secrets.SCAFFOLD_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
-      - uses: EndBug/label-sync@v2.3.3
-        with:
-          config-file: .github/labels.yml
-          repos: all
-          # Do not delete labels that exist in repos but not in labels.yml.
-          # Repos may have additional labels specific to their needs.
-          delete-other-labels: false
-          # Dry-run on PRs, apply on main
-          dry-run: ${{ github.event_name == 'pull_request' }}
+      - name: Sync labels to all repos
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          ORG: ${{ github.repository_owner }}
+          DRY_RUN: ${{ github.event_name == 'pull_request' }}
+        run: |
+          python3 << 'EOF'
+          import json, os, subprocess, urllib.parse, yaml
+
+          org = os.environ["ORG"]
+          dry_run = os.environ["DRY_RUN"] == "true"
+
+          with open(".github/labels.yml") as f:
+              labels = yaml.safe_load(f)
+
+          repos = subprocess.run(
+              ["gh", "api", f"orgs/{org}/repos", "--paginate", "--jq", ".[].name"],
+              capture_output=True, text=True, check=True
+          ).stdout.strip().split("\n")
+
+          for repo in repos:
+              print(f"\n→ {org}/{repo}")
+              for label in labels:
+                  name        = label["name"]
+                  color       = label["color"]
+                  description = label.get("description", "")
+                  encoded     = urllib.parse.quote(name, safe="")
+
+                  if dry_run:
+                      print(f"  [dry-run] {name}")
+                      continue
+
+                  patch = subprocess.run(
+                      ["gh", "api", f"repos/{org}/{repo}/labels/{encoded}",
+                       "--method", "PATCH",
+                       "-f", f"color={color}",
+                       "-f", f"description={description}"],
+                      capture_output=True, text=True
+                  )
+                  if patch.returncode == 0:
+                      print(f"  updated:  {name}")
+                  else:
+                      post = subprocess.run(
+                          ["gh", "api", f"repos/{org}/{repo}/labels",
+                           "--method", "POST",
+                           "-f", f"name={name}",
+                           "-f", f"color={color}",
+                           "-f", f"description={description}"],
+                          capture_output=True, text=True
+                      )
+                      if post.returncode == 0:
+                          print(f"  created:  {name}")
+                      else:
+                          print(f"  error:    {name} — {post.stderr.strip()}")
+          EOF
