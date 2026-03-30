@@ -16,13 +16,22 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.SCAFFOLD_APP_ID }}
+          private-key: ${{ secrets.SCAFFOLD_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
       - uses: EndBug/label-sync@v2
         with:
           config-file: .github/labels.yml
+          repos: all
           # Do not delete labels that exist in repos but not in labels.yml.
           # Repos may have additional labels specific to their needs.
           delete-other-labels: false
           # Dry-run on PRs, apply on main
           dry-run: ${{ github.event_name == 'pull_request' }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
